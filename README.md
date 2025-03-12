@@ -11,6 +11,16 @@ This Learning Management System (LMS) is a web application built with Next.js an
 - **React**: JavaScript library for building user interfaces
 - **TypeScript**: Statically typed JavaScript for better developer experience
 
+## Architecture
+
+The LMS follows a modern web architecture with:
+
+- **Frontend**: Next.js React application with TypeScript
+- **Backend**: Serverless functions with Next.js API routes
+- **Database**: PostgreSQL managed by Supabase
+- **Authentication**: Supabase Auth with multiple providers
+- **Storage**: Supabase Storage for files and media
+
 ## Features
 
 - User authentication and authorization
@@ -19,6 +29,15 @@ This Learning Management System (LMS) is a web application built with Next.js an
 - Student progress tracking
 - Assignment submissions
 - Real-time notifications
+
+# Screenshot
+- Home
+![LMS Home](./screenshot/home.png)
+- Course
+![LMS Course](./screenshot/course.png)
+- Detail Course
+![LMS Course Detail](./screenshot/detail-course.png)
+
 
 ## Getting Started
 
