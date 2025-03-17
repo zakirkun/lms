@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { BookOpen, GraduationCap, LayoutDashboard, Library, LogOut, Settings, ShoppingCart, Users } from "lucide-react"
+import { BookOpen, GraduationCap, LayoutDashboard, Library, LogOut, Settings, ShoppingCart, Users, ChartArea, Album, Award } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
@@ -85,7 +85,7 @@ export function Sidebar({ isInstructor = false, isAdmin = false }: SidebarProps)
                   pathname === "/dashboard/instructor/courses" ? "bg-muted text-primary" : "text-muted-foreground",
                 )}
               >
-                <BookOpen className="h-4 w-4" />
+                <Album className="h-4 w-4" />
                 My Courses
               </Link>
               <Link
@@ -97,6 +97,16 @@ export function Sidebar({ isInstructor = false, isAdmin = false }: SidebarProps)
               >
                 <BookOpen className="h-4 w-4" />
                 Create Course
+              </Link>
+              <Link
+                href="/dashboard/instructor/analytics"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                  pathname === "/dashboard/instructor/analytics" ? "bg-muted text-primary" : "text-muted-foreground",
+                )}
+              >
+                <ChartArea className="h-4 w-4" />
+                Analytics
               </Link>
             </>
           )}
@@ -123,6 +133,13 @@ export function Sidebar({ isInstructor = false, isAdmin = false }: SidebarProps)
               >
                 <Users className="h-4 w-4" />
                 Users
+              </Link>
+              <Link href="/dashboard/admin/settings/certificate" className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary",
+                  pathname === "/dashboard/admin/settings/certificate" ? "bg-muted text-primary" : "text-muted-foreground",
+                )}>
+                <Award className="h-4 w-4" />
+                Certificate
               </Link>
             </>
           )}

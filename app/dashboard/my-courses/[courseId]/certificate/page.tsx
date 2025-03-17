@@ -2,10 +2,10 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 import Link from "next/link"
-import { format } from "date-fns"
-import { ArrowLeft, Download, Award, Share2 } from "lucide-react"
+import { ArrowLeft, Award } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { CertificateTemplate } from "@/components/courses/certificate-template"
 
 interface CertificatePageProps {
   params: {
@@ -90,7 +90,14 @@ export default async function CertificatePage({ params }: CertificatePageProps) 
 
   // Generate certificate ID
   const certificateId = `CERT-${courseId.substring(0, 8)}-${session.user.id.substring(0, 8)}`
-  const completionDate = format(new Date(), "MMMM d, yyyy")
+  const completionDate = new Date()
+
+  // Get organization settings (in a real app, this would come from your database)
+  const orgSettings = {
+    logoUrl: "/placeholder.svg?height=60&width=200&text=EduLearn",
+    signatureUrl: "/placeholder.svg?height=40&width=150&text=Signature",
+    certificateTheme: "default" as "default" | "modern" | "classic" | "minimal",
+  }
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -103,16 +110,6 @@ export default async function CertificatePage({ params }: CertificatePageProps) 
             <ArrowLeft className="h-4 w-4" />
             Back to Course
           </Link>
-          <div className="ml-auto flex items-center gap-4">
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <Share2 className="h-4 w-4" />
-              Share
-            </Button>
-            <Button variant="outline" size="sm" className="flex items-center gap-2">
-              <Download className="h-4 w-4" />
-              Download
-            </Button>
-          </div>
         </div>
       </header>
 
@@ -124,30 +121,17 @@ export default async function CertificatePage({ params }: CertificatePageProps) 
             <p className="text-muted-foreground">Congratulations on completing the course!</p>
           </div>
 
-          <Card className="p-8 border-2 border-primary/20 bg-card/50 animate-scale-up">
-            <div className="text-center mb-8">
-              <div className="text-sm text-muted-foreground mb-1">Certificate of Completion</div>
-              <h2 className="text-2xl font-bold gradient-text">EduLearn</h2>
-            </div>
-
-            <div className="text-center mb-8">
-              <p className="text-lg mb-2">This is to certify that</p>
-              <h3 className="text-3xl font-bold mb-2">{profile.full_name}</h3>
-              <p className="text-lg mb-6">has successfully completed the course</p>
-              <h4 className="text-2xl font-bold mb-2 gradient-text">{course.title}</h4>
-              <p className="text-muted-foreground">Instructed by {course.profiles.full_name}</p>
-            </div>
-
-            <div className="flex justify-between items-center mt-12 pt-8 border-t">
-              <div className="text-center">
-                <div className="text-sm font-medium">{completionDate}</div>
-                <div className="text-xs text-muted-foreground">Date of Completion</div>
-              </div>
-              <div className="text-center">
-                <div className="text-sm font-medium">{certificateId}</div>
-                <div className="text-xs text-muted-foreground">Certificate ID</div>
-              </div>
-            </div>
+          <Card className="p-6 border-2 border-primary/20 bg-card/50 animate-scale-up">
+            <CertificateTemplate
+              studentName={profile.full_name || session.user.email || "Student"}
+              courseName={course.title}
+              instructorName={course.profiles.full_name}
+              completionDate={completionDate}
+              certificateId={certificateId}
+              logoUrl={orgSettings.logoUrl}
+              signatureUrl={orgSettings.signatureUrl}
+              theme={orgSettings.certificateTheme}
+            />
           </Card>
 
           <div className="text-center mt-8 animate-fade-in animate-delay-300">

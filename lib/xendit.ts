@@ -52,6 +52,7 @@ export const createInvoice = async (params: {
     })
 
     if (!response.ok) {
+      console.log(response.status)
       throw new Error(`Xendit API error: ${response.status}`)
     }
 
